@@ -7,7 +7,12 @@
 typedef enum {
   OP_CONSTANT,
   OP_RETURN,
-} OpCode;
+  OP_NEGATE,
+  OP_ADD,
+  OP_SUBTRACT,
+  OP_MULTIPLY,
+  OP_DIVIDE,
+} OpCode; // by default uint8_t?
 
 typedef struct {
   int count;

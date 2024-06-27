@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=
+CFLAGS=-g
 PROGNAME=clox
 
 # runs if no args passed to 'make' command
@@ -11,7 +11,7 @@ all: compile
 # 	$(CC) $(CFLAGS) -o $(PROGNAME) $^
 # 	@chmod +x $(PROGNAME)
 
-compile: main.o memory.o chunk.o debug.o value.o
+compile: main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o
 	$(CC) $(CFLAGS) -o $(PROGNAME) $^
 	@chmod +x $(PROGNAME)
 
