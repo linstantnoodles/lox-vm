@@ -36,20 +36,20 @@ void initScanner(const char* source);
 Token scanToken();
 
 // Add these function declarations
-static Token makeToken(TokenType type);
-static Token errorToken(const char* message);
-static bool isAtEnd();
-static char advance();
-static bool match(char expected);
-static void skipWhitespace();
-static Token identifier();
-static Token number();
-static Token string();
-static TokenType identifierType();
-static TokenType checkKeyword(int start, int length, const char* rest, TokenType type);
-static bool isAlpha(char c);
-static bool isDigit(char c);
-static char peek();
-static char peekNext();
+// static Token makeToken(TokenType type);
+// static Token errorToken(const char* message);
+// static bool isAtEnd();
+// static char advance();
+// static bool match(char expected);
+// static void skipWhitespace();
+// static Token identifier();
+// static Token number();
+// static Token string();
+// static TokenType identifierType();
+// static TokenType checkKeyword(int start, int length, const char* rest, TokenType type);
+// static bool isAlpha(char c);
+// static bool isDigit(char c);
+// static char peek();
+// static char peekNext();
 
 #endif
