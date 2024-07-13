@@ -12,23 +12,6 @@ typedef struct {
 
 Scanner scanner;
 
-// Function declarations
-static bool isAtEnd();
-static char advance();
-static char peek();
-static char peekNext();
-static bool match(char expected);
-static Token makeToken(TokenType type);
-static Token errorToken(const char* message);
-static void skipWhitespace();
-static Token string();
-static bool isAlpha(char c);
-static bool isDigit(char c);
-static Token identifier();
-static Token number();
-static TokenType checkKeyword(int start, int length, const char* rest, TokenType type);
-static TokenType identifierType();
-
 void initScanner(const char* source) {
   scanner.start = source;
   scanner.current = source;

@@ -35,21 +35,4 @@ void initScanner(const char* source);
 
 Token scanToken();
 
-// Function declarations
-bool isAtEnd();
-char advance();
-char peek();
-char peekNext();
-bool match(char expected);
-Token makeToken(TokenType type);
-Token errorToken(const char* message);
-void skipWhitespace();
-Token string();
-bool isAlpha(char c);
-bool isDigit(char c);
-Token identifier();
-Token number();
-TokenType checkKeyword(int start, int length, const char* rest, TokenType type);
-TokenType identifierType();
-
 #endif

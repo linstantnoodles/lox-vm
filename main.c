@@ -22,6 +22,7 @@ static void repl() {
 
 static char* readFile(const char* path) {
   FILE* file = fopen(path, "rb");
+  // This can happen if the file doesn’t exist or the user doesn’t have access to it.
   if (file == NULL) {
     fprintf(stderr, "Could not open file \"%s\".\n", path);
     exit(74);
@@ -32,6 +33,7 @@ static char* readFile(const char* path) {
   rewind(file);
 
   char* buffer = (char*)malloc(fileSize + 1);
+  // If we can’t even allocate enough memory to read the Lox script, the user’s probably got bigger problems to worry about, but we should do our best to at least let them know.
   if (buffer == NULL) {
     fprintf(stderr, "Not enough memory to read \"%s\".\n", path);
     exit(74);
