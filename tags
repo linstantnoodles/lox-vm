@@ -10,23 +10,40 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220501.0/
 %.o	Makefile	/^%.o: %.c$/;"	t
+BINARY_OP	vm.c	/^#define BINARY_OP(/;"	d	file:
 CC	Makefile	/^CC=gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS=$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-g$/;"	m
 Chunk	chunk.h	/^} Chunk;$/;"	t	typeref:struct:__anonc3a0ef940208
+DEBUG_TRACE_EXECUTION	common.h	/^#define DEBUG_TRACE_EXECUTION$/;"	d
 FREE_ARRAY	memory.h	/^#define FREE_ARRAY(/;"	d
 GROW_ARRAY	memory.h	/^#define GROW_ARRAY(/;"	d
 GROW_CAPACITY	memory.h	/^#define GROW_CAPACITY(/;"	d
+INTERPRET_COMPILE_ERROR	vm.h	/^    INTERPRET_COMPILE_ERROR,$/;"	e	enum:__anon7c9f9a3e0203
+INTERPRET_OK	vm.h	/^    INTERPRET_OK,$/;"	e	enum:__anon7c9f9a3e0203
+INTERPRET_RUNTIME_ERROR	vm.h	/^    INTERPRET_RUNTIME_ERROR$/;"	e	enum:__anon7c9f9a3e0203
+InterpretResult	vm.h	/^} InterpretResult;$/;"	t	typeref:enum:__anon7c9f9a3e0203
+OP_ADD	chunk.h	/^  OP_ADD,$/;"	e	enum:__anonc3a0ef940103
 OP_CONSTANT	chunk.h	/^  OP_CONSTANT,$/;"	e	enum:__anonc3a0ef940103
+OP_DIVIDE	chunk.h	/^  OP_DIVIDE,$/;"	e	enum:__anonc3a0ef940103
+OP_MULTIPLY	chunk.h	/^  OP_MULTIPLY,$/;"	e	enum:__anonc3a0ef940103
+OP_NEGATE	chunk.h	/^  OP_NEGATE,$/;"	e	enum:__anonc3a0ef940103
 OP_RETURN	chunk.h	/^  OP_RETURN,$/;"	e	enum:__anonc3a0ef940103
-OpCode	chunk.h	/^} OpCode;$/;"	t	typeref:enum:__anonc3a0ef940103
+OP_SUBTRACT	chunk.h	/^  OP_SUBTRACT,$/;"	e	enum:__anonc3a0ef940103
+OpCode	chunk.h	/^} OpCode; \/\/ by default uint8_t?$/;"	t	typeref:enum:__anonc3a0ef940103
 PROGNAME	Makefile	/^PROGNAME=clox$/;"	m
+READ_BYTE	vm.c	/^#define READ_BYTE(/;"	d	file:
+READ_CONSTANT	vm.c	/^#define READ_CONSTANT(/;"	d	file:
+STACK_MAX	vm.h	/^#define STACK_MAX /;"	d
+Scanner	scanner.c	/^} Scanner;$/;"	t	typeref:struct:__anond6e0f0600108	file:
 VM	vm.h	/^} VM;$/;"	t	typeref:struct:__anon7c9f9a3e0108
 Value	value.h	/^typedef double Value;$/;"	t	typeref:typename:double
 ValueArray	value.h	/^} ValueArray;$/;"	t	typeref:struct:__anon694036180108
 __anon694036180108	value.h	/^typedef struct {$/;"	s
 __anon7c9f9a3e0108	vm.h	/^typedef struct {$/;"	s
+__anon7c9f9a3e0203	vm.h	/^typedef enum {$/;"	g
 __anonc3a0ef940103	chunk.h	/^typedef enum {$/;"	g
 __anonc3a0ef940208	chunk.h	/^typedef struct {$/;"	s
+__anond6e0f0600108	scanner.c	/^typedef struct {$/;"	s	file:
 addConstant	chunk.c	/^int addConstant(Chunk* chunk, Value value) {$/;"	f	typeref:typename:int
 all	Makefile	/^all: compile$/;"	t
 capacity	chunk.h	/^  int capacity;$/;"	m	struct:__anonc3a0ef940208	typeref:typename:int
@@ -35,16 +52,20 @@ chunk	vm.h	/^      Chunk* chunk;$/;"	m	struct:__anon7c9f9a3e0108	typeref:typenam
 clean	Makefile	/^clean:$/;"	t
 clox_chunk_h	chunk.h	/^#define clox_chunk_h$/;"	d
 clox_common_h	common.h	/^#define clox_common_h$/;"	d
+clox_compiler_h	compiler.h	/^#define clox_compiler_h$/;"	d
 clox_debug_h	debug.h	/^#define clox_debug_h$/;"	d
 clox_memory_h	memory.h	/^#define clox_memory_h$/;"	d
+clox_scanner_h	scanner.h	/^#define clox_scanner_h$/;"	d
 clox_value_h	value.h	/^#define clox_value_h$/;"	d
 clox_vm_h	vm.h	/^#define clox_vm_h$/;"	d
 code	chunk.h	/^  uint8_t* code;$/;"	m	struct:__anonc3a0ef940208	typeref:typename:uint8_t *
-compile	Makefile	/^compile: main.o memory.o chunk.o debug.o value.o$/;"	t
+compile	Makefile	/^compile: main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o$/;"	t
+compile	compiler.c	/^void compile(const char* source) {$/;"	f	typeref:typename:void
 constantInstruction	debug.c	/^static int constantInstruction(const char* name, Chunk* chunk,$/;"	f	typeref:typename:int	file:
 constants	chunk.h	/^  ValueArray constants;$/;"	m	struct:__anonc3a0ef940208	typeref:typename:ValueArray
 count	chunk.h	/^  int count;$/;"	m	struct:__anonc3a0ef940208	typeref:typename:int
 count	value.h	/^  int count;$/;"	m	struct:__anon694036180108	typeref:typename:int
+current	scanner.c	/^  const char* current;$/;"	m	struct:__anond6e0f0600108	typeref:typename:const char *	file:
 dev	Makefile	/^dev: compile run$/;"	t
 disassembleChunk	debug.c	/^void disassembleChunk(Chunk* chunk, const char* name) {$/;"	f	typeref:typename:void
 disassembleInstruction	debug.c	/^int disassembleInstruction(Chunk* chunk, int offset) {$/;"	f	typeref:typename:int
@@ -52,14 +73,29 @@ freeChunk	chunk.c	/^void freeChunk(Chunk* chunk) {$/;"	f	typeref:typename:void
 freeVM	vm.c	/^void freeVM() {$/;"	f	typeref:typename:void
 freeValueArray	value.c	/^void freeValueArray(ValueArray* array) {$/;"	f	typeref:typename:void
 initChunk	chunk.c	/^void initChunk(Chunk* chunk) {$/;"	f	typeref:typename:void
+initScanner	scanner.c	/^void initScanner(const char* source) {$/;"	f	typeref:typename:void
 initVM	vm.c	/^void initVM() {$/;"	f	typeref:typename:void
 initValueArray	value.c	/^void initValueArray(ValueArray* array) {$/;"	f	typeref:typename:void
+interpret	vm.c	/^InterpretResult interpret(const char* source) {$/;"	f	typeref:typename:InterpretResult
+ip	vm.h	/^      uint8_t* ip;$/;"	m	struct:__anon7c9f9a3e0108	typeref:typename:uint8_t *
+line	scanner.c	/^  int line;$/;"	m	struct:__anond6e0f0600108	typeref:typename:int	file:
 lines	chunk.h	/^  int* lines;$/;"	m	struct:__anonc3a0ef940208	typeref:typename:int *
 main	main.c	/^int main(int argc, const char* argv[]) {$/;"	f	typeref:typename:int
+pop	vm.c	/^Value pop() {$/;"	f	typeref:typename:Value
 printValue	value.c	/^void printValue(Value value) {$/;"	f	typeref:typename:void
+push	vm.c	/^void push(Value value) {$/;"	f	typeref:typename:void
+readFile	main.c	/^static char* readFile(const char* path) {$/;"	f	typeref:typename:char *	file:
 reallocate	memory.c	/^void* reallocate(void* pointer, size_t oldSize, size_t newSize) {$/;"	f	typeref:typename:void *
+repl	main.c	/^static void repl() {$/;"	f	typeref:typename:void	file:
+resetStack	vm.c	/^static void resetStack() {$/;"	f	typeref:typename:void	file:
 run	Makefile	/^run:$/;"	t
+run	vm.c	/^static InterpretResult run() {$/;"	f	typeref:typename:InterpretResult	file:
+runFile	main.c	/^static void runFile(const char* path) {$/;"	f	typeref:typename:void	file:
+scanner	scanner.c	/^Scanner scanner;$/;"	v	typeref:typename:Scanner
 simpleInstruction	debug.c	/^static int simpleInstruction(const char* name, int offset) {$/;"	f	typeref:typename:int	file:
+stack	vm.h	/^      Value stack[STACK_MAX];$/;"	m	struct:__anon7c9f9a3e0108	typeref:typename:Value[]
+stackTop	vm.h	/^      Value* stackTop;$/;"	m	struct:__anon7c9f9a3e0108	typeref:typename:Value *
+start	scanner.c	/^  const char* start;$/;"	m	struct:__anond6e0f0600108	typeref:typename:const char *	file:
 values	value.h	/^  Value* values;$/;"	m	struct:__anon694036180108	typeref:typename:Value *
 vm	vm.c	/^VM vm; $/;"	v	typeref:typename:VM
 writeChunk	chunk.c	/^void writeChunk(Chunk* chunk, uint8_t byte, int line) {$/;"	f	typeref:typename:void
