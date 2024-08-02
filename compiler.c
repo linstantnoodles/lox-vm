@@ -15,6 +15,7 @@ typedef struct {
   bool panicMode;
 } Parser;
 
+// precedence orders from lowest to highest 
 typedef enum {
   PREC_NONE,
   PREC_ASSIGNMENT,  // =
