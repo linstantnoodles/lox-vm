@@ -11,7 +11,7 @@ all: compile
 # 	$(CC) $(CFLAGS) -o $(PROGNAME) $^
 # 	@chmod +x $(PROGNAME)
 
-compile: main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o object.o
+compile: main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o object.o table.o
 	$(CC) $(CFLAGS) -o $(PROGNAME) $^
 	@chmod +x $(PROGNAME)
 
