@@ -29,7 +29,7 @@ static void runtimeError(const char* format, ...) {
 
 void initVM() {
   resetStack();
-  vm.objects = NULL
+  vm.objects = NULL;
 }
 
 void freeVM() {
