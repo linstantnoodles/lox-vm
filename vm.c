@@ -194,6 +194,11 @@ static InterpretResult run() {
         vm.ip += offset;
         break;
       }
+      case OP_LOOP: {
+        uint16_t offset = READ_SHORT();
+        vm.ip -= offset;
+        break;
+      }
       case OP_SUBTRACT: BINARY_OP(NUMBER_VAL, -); break;
       case OP_MULTIPLY: BINARY_OP(NUMBER_VAL, *); break;
       case OP_DIVIDE:   BINARY_OP(NUMBER_VAL, /); break;
