@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include <stdarg.h>
 #include "common.h"
 #include "debug.h"
@@ -8,7 +9,11 @@
 #include "vm.h"
 #include "compiler.h"
 
-VM vm; 
+VM vm;
+
+static Value clockNative(int argCount, Value* args) {
+  return NUMBER_VAL((double)clock() / CLOCKS_PER_SEC);
+}
 
 static void resetStack() {
 	vm.stackTop = vm.stack;
@@ -26,7 +31,7 @@ static void runtimeError(const char* format, ...) {
     CallFrame* frame = &vm.frames[i];
     ObjFunction* function = frame->function;
     size_t instruction = frame->ip - function->chunk.code - 1;
-    fprintf(stderr, "[line %d] in ", 
+    fprintf(stderr, "[line %d] in ",
             function->chunk.lines[instruction]);
     if (function->name == NULL) {
       fprintf(stderr, "script\n");
@@ -38,11 +43,20 @@ static void runtimeError(const char* format, ...) {
   resetStack();
 }
 
+static void defineNative(const char* name, NativeFn function) {
+  push(OBJ_VAL(copyString(name, (int)strlen(name))));
+  push(OBJ_VAL(newNative(function)));
+  tableSet(&vm.globals, AS_STRING(vm.stack[0]), vm.stack[1]);
+  pop();
+  pop();
+}
+
 void initVM() {
   resetStack();
   vm.objects = NULL;
   initTable(&vm.globals);
   initTable(&vm.strings);
+  defineNative("clock", clockNative);
 }
 
 void freeVM() {
@@ -87,8 +101,15 @@ static bool call(ObjFunction* function, int argCount) {
 static bool callValue(Value callee, int argCount) {
   if (IS_OBJ(callee)) {
     switch (OBJ_TYPE(callee)) {
-      case OBJ_FUNCTION: 
+      case OBJ_FUNCTION:
         return call(AS_FUNCTION(callee), argCount);
+      case OBJ_NATIVE: {
+        NativeFn native = AS_NATIVE(callee);
+        Value result = native(argCount, vm.stackTop - argCount);
+        vm.stackTop -= argCount + 1;
+        push(result);
+        return true;
+      }
       default:
         break; // Non-callable object type.
     }
@@ -159,7 +180,7 @@ static InterpretResult run() {
         (int)(frame->ip - frame->function->chunk.code));
 #endif
     uint8_t instruction;
-    switch (instruction = READ_BYTE()) {	
+    switch (instruction = READ_BYTE()) {
       case OP_CONSTANT: {
         Value constant = READ_CONSTANT();
 	push(constant);
@@ -188,7 +209,7 @@ static InterpretResult run() {
       case OP_SET_GLOBAL: {
         ObjString* name = READ_STRING();
         if (tableSet(&vm.globals, name, peek(0))) {
-          tableDelete(&vm.globals, name); 
+          tableDelete(&vm.globals, name);
           runtimeError("Undefined variable '%s'.", name->chars);
           return INTERPRET_RUNTIME_ERROR;
         }
@@ -303,5 +324,3 @@ InterpretResult interpret(const char* source) {
 
   return run();
 }
-
-

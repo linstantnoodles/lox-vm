@@ -17,7 +17,7 @@ typedef struct {
   bool panicMode;
 } Parser;
 
-// precedence orders from lowest to highest 
+// precedence orders from lowest to highest
 typedef enum {
   PREC_NONE,
   PREC_ASSIGNMENT,  // =
@@ -41,8 +41,8 @@ typedef struct {
 } ParseRule;
 
 // the actual local.
-// in jlox, we had a linked list 
-// sort of environment dicts to traverse 
+// in jlox, we had a linked list
+// sort of environment dicts to traverse
 // during eval
 typedef struct {
   Token name;
@@ -60,7 +60,7 @@ typedef struct Compiler {
   struct Compiler* enclosing;
   ObjFunction* function; // support implicit top level function for the program
   FunctionType type;
-  // limited to uint8 because that's the size of our 
+  // limited to uint8 because that's the size of our
   // opcodes. so any reference to a local value in the stack
   // sort of like any constant cannot be indexed beyond u8int
   Local locals[UINT8_COUNT];
@@ -231,8 +231,8 @@ static void beginScope() {
 
 static void endScope() {
   current->scopeDepth--;
-  // beyond just handling the 
-  // scope depth change, we need to emit a POP 
+  // beyond just handling the
+  // scope depth change, we need to emit a POP
   // for the VM and reset the local count
   // so that it can be cleaned up from the stack
   // during execution later
@@ -261,7 +261,7 @@ static bool identifiersEqual(Token* a, Token* b) {
   return memcmp(a->start, b->start, a->length) == 0;
 }
 
-// basically goes through the local array 
+// basically goes through the local array
 // based on current scope
 static int resolveLocal(Compiler* compiler, Token* name) {
   for (int i = compiler->localCount - 1; i >= 0; i--) {
@@ -270,7 +270,7 @@ static int resolveLocal(Compiler* compiler, Token* name) {
       if (local->depth == -1) {
         error("Can't read local variable in its own initializer.");
       }
-      
+
       return i;
     }
   }
@@ -291,7 +291,7 @@ static void addLocal(Token name) {
 }
 
 static void declareVariable() {
-  // bail if a local var. otherwise add it as a local and 
+  // bail if a local var. otherwise add it as a local and
   // record the current depth of the parsing
   if (current->scopeDepth == 0) return;
 
@@ -302,7 +302,7 @@ static void declareVariable() {
   for (int i = current->localCount - 1; i >= 0; i--) {
     Local* local = &current->locals[i];
     if (local->depth != -1 && local->depth < current->scopeDepth) {
-      break; 
+      break;
     }
 
     if (identifiersEqual(name, &local->name)) {
@@ -468,7 +468,7 @@ static void unary(bool canAssign) {
 ParseRule rules[] = {
   [TOKEN_LEFT_PAREN]    = {grouping, call,   PREC_CALL},
   [TOKEN_RIGHT_PAREN]   = {NULL,     NULL,   PREC_NONE},
-  [TOKEN_LEFT_BRACE]    = {NULL,     NULL,   PREC_NONE}, 
+  [TOKEN_LEFT_BRACE]    = {NULL,     NULL,   PREC_NONE},
   [TOKEN_RIGHT_BRACE]   = {NULL,     NULL,   PREC_NONE},
   [TOKEN_COMMA]         = {NULL,     NULL,   PREC_NONE},
   [TOKEN_DOT]           = {NULL,     NULL,   PREC_NONE},
@@ -553,7 +553,7 @@ static void block() {
 static void function(FunctionType type) {
   Compiler compiler;
   initCompiler(&compiler, type);
-  beginScope(); 
+  beginScope();
 
   consume(TOKEN_LEFT_PAREN, "Expect '(' after function name.");
 
@@ -652,7 +652,7 @@ static void forStatement() {
 static void ifStatement() {
   consume(TOKEN_LEFT_PAREN, "Expect '(' after 'if'.");
   expression();
-  consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition."); 
+  consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
 
   int thenJump = emitJump(OP_JUMP_IF_FALSE);
   emitByte(OP_POP);
@@ -670,6 +670,20 @@ static void printStatement() {
   expression();
   consume(TOKEN_SEMICOLON, "Expect ';' after value.");
   emitByte(OP_PRINT);
+}
+
+static void returnStatement() {
+  if (current->type == TYPE_SCRIPT) {
+      error("Can't return from top-level code.");
+  }
+
+  if (match(TOKEN_SEMICOLON)) {
+    emitReturn();
+  } else {
+    expression();
+    consume(TOKEN_SEMICOLON, "Expect ';' after return value.");
+    emitByte(OP_RETURN);
+  }
 }
 
 static void whileStatement() {
@@ -730,6 +744,8 @@ static void statement() {
     forStatement();
   } else if (match(TOKEN_IF)) {
     ifStatement();
+  } else if (match(TOKEN_RETURN)) {
+      returnStatement();
   } else if (match(TOKEN_WHILE)) {
     whileStatement();
   } else if (match(TOKEN_LEFT_BRACE)) {
@@ -770,7 +786,7 @@ ObjFunction* compile(const char* source) {
   //   } else {
   //     printf("   | ");
   //   }
-  //   printf("%2d '%.*s'\n", token.type, token.length, token.start); 
+  //   printf("%2d '%.*s'\n", token.type, token.length, token.start);
 
   //   if (token.type == TOKEN_EOF) break;
   // }
