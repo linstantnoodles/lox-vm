@@ -69,6 +69,7 @@ ObjString* copyString(const char* chars, int length) {
 }
 
 static void printFunction(ObjFunction* function) {
+  // we're dealing with the top level function
   if (function->name == NULL) {
     printf("<script>");
     return;
