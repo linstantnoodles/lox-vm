@@ -13,7 +13,7 @@
 // that tells us the function being called
 // and where to resume after function is done
 typedef struct {
-  ObjFunction* function;
+  ObjClosure* closure;
   uint8_t* ip;
   Value* slots;
 } CallFrame;
@@ -50,4 +50,3 @@ void push(Value value);
 Value pop();
 
 #endif
-
