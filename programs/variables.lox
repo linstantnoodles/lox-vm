@@ -1,0 +1,4 @@
+var name = "alan";
+var age = 2;
+var isMale = true;
+print(age);
