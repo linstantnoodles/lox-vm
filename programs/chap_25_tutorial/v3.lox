@@ -1,0 +1,37 @@
+// nested function with locals and non-local
+
+fun outer() {
+  // OP_CONSTANT
+  var x = "hello";
+
+  fun inner() {
+    // OP_CONSTANT
+    var y = "ciao";
+    // OP_GET_LOCAL
+    // OP_PRINT
+    print(y);
+
+    // OP_GET_UPVALUE
+    // OP_PRINT
+    print(x);
+  }
+  // OP_CLOSURE
+
+  // OP_GET_LOCAL
+  print("from outer");
+  print(x);
+
+
+  // OP_GET_LOCAL
+  inner();
+  // OP_CALL
+
+  // OP_NIL
+  // OP_RETURN
+}
+
+// OP_CLOSURE
+// OP_DEFINE_GLOBAL
+// OP_GET_GLOBAL
+outer();
+// OP_CALL

@@ -309,15 +309,19 @@ static int addUpvalue(Compiler* compiler, uint8_t index,
 }
 
 static int resolveUpvalue(Compiler* compiler, Token* name) {
+  // is it global
   if (compiler->enclosing == NULL) return -1;
 
-  // closing over an immediate local. if this func
+  // look for a local in the enclosing block
   int local = resolveLocal(compiler->enclosing, name);
   if (local != -1) {
     compiler->enclosing->locals[local].isCaptured = true;
+    // if found, add it to our known upvalues
     return addUpvalue(compiler, (uint8_t)local, true);
   }
 
+  // if not found, recurse so that the parent block repeats the same with
+  // its enclosing block
   int upvalue = resolveUpvalue(compiler->enclosing, name);
   if (upvalue != -1) {
     return addUpvalue(compiler, (uint8_t)upvalue, false);

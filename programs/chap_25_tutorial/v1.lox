@@ -1,0 +1,17 @@
+// basic function with locals
+
+fun outer() {
+  // OP_CONSTANT
+  var x = "hello";
+
+  // OP_GET_LOCAL
+  print(x);
+
+  // OP_NIL
+  // OP_RETURN
+}
+// OP_CLOSURE
+// OP_DEFINE_GLOBAL
+// OP_GET_GLOBAL
+outer();
+// OP_CALL
